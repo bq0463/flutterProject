@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<map>
+    <string name="flutter.uid">newuid</string>
+    <string name="flutter.token">newtoken</string>
+</map>

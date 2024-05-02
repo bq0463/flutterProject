@@ -9,4 +9,13 @@ class Song {
     required this.artistName,
     required this.albumArtImagePath,
     required this.audioPath});
+
+  Map<String, dynamic> toMap() {
+    return {
+      'songName': songName,
+      'artistName': artistName,
+      'albumArtImagePath': albumArtImagePath,
+      'audioPath': audioPath,
+    };
+  }
 }

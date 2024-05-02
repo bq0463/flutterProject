@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "451109413899",
+    "project_id": "megaplayer-118b6",
+    "storage_bucket": "megaplayer-118b6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:451109413899:android:5f2d326ece7e9261b2130e",
+        "android_client_info": {
+          "package_name": "es.upm.AHL.helloflutter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDTwyuo2CpZLIVNZcycKU_nPxdjWD5HSfw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

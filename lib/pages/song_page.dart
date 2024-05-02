@@ -1,10 +1,44 @@
+import 'dart:math';
+
 import 'package:Megaplayer/components/song_container.dart';
 import 'package:Megaplayer/models/Playlist_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:sensors_plus/sensors_plus.dart';
 
-class SongPage extends StatelessWidget {
-  const SongPage({super.key});
+class SongPage extends StatefulWidget {
+  const SongPage({Key? key}) : super(key: key);
+
+  @override
+  _SongPageState createState() => _SongPageState();
+
+}
+
+class _SongPageState extends State<SongPage>{
+  List<double> _accelerometerValues = [0, 0, 0];
+  List<double> _gyroscopeValues = [0, 0, 0];
+  //convert duration into min:seconds
+  String formatTime(Duration duration){
+    String twoDigitSeconds=duration.inSeconds.remainder(60).toString().padLeft(2,'0');
+    String formattedTime="${duration.inMinutes}:$twoDigitSeconds";
+    return formattedTime;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    accelerometerEvents.listen((AccelerometerEvent event) {
+      setState(() {
+        _accelerometerValues = [event.x, event.y, event.z];
+      });
+    });
+    gyroscopeEvents.listen((GyroscopeEvent event) {
+      setState(() {
+        _gyroscopeValues = [event.x, event.y, event.z];
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,24 +126,24 @@ class SongPage extends StatelessWidget {
                   //song progress
                   Column(
                     children: [
-                      const Padding(
-                        padding: EdgeInsets.symmetric(
+                      Padding(
+                        padding:  EdgeInsets.symmetric(
                           horizontal: 25.0,
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             //start time
-                            Text("0:00"),
+                            Text(formatTime(value.currentDuration)),
 
                             //shuffle icon
-                            Icon(Icons.shuffle),
+                            const Icon(Icons.shuffle),
 
                             //repeat icon
-                            Icon(Icons.repeat),
+                            const Icon(Icons.repeat),
 
                             //end time
-                            Text("0:00"),
+                            Text(formatTime(value.totalDuration)),
                           ],
                         ),
                       ),
@@ -122,10 +156,14 @@ class SongPage extends StatelessWidget {
                         ),
                         child: Slider(
                           min: 0,
-                          max: 100,
-                          value: 50,
+                          max: value.totalDuration.inSeconds.toDouble(),
+                          value: value.currentDuration.inSeconds.toDouble(),
                           activeColor: Colors.cyanAccent,
-                          onChanged: (value) {},
+                          label: "${value.currentDuration.inSeconds.toDouble()}",
+                          onChanged: (double double) {
+                            //user sliding around
+                            value.seek(Duration(seconds: double.toInt()));
+                          },
                         ),
                       ),
                     ],
@@ -139,11 +177,12 @@ class SongPage extends StatelessWidget {
                       //skip previous
                       Expanded(
                           child: GestureDetector(
-                        onTap: () {},
-                        child: const SongContainer(
-                          child: Icon(Icons.skip_previous),
-                        ),
-                      )),
+                            onTap: value.playPreviousSong,
+                            child: const SongContainer(
+                              child: Icon(Icons.skip_previous),
+                            ),
+                          ),
+                      ),
 
                       const SizedBox(width: 20),
 
@@ -151,21 +190,54 @@ class SongPage extends StatelessWidget {
                       Expanded(
                           flex: 2,
                           child: GestureDetector(
-                            onTap: () {},
-                            child: const SongContainer(
-                              child: Icon(Icons.play_arrow),
+                            onTap: value.pauseOrResume,
+                            child:  SongContainer(
+                              child: Icon(value.isPlaying ? Icons.pause: Icons.play_arrow),
                             ),
-                          )),
+                          ),
+                      ),
                       const SizedBox(width: 20),
                       //skip forward
                       Expanded(
                           child: GestureDetector(
-                        onTap: () {},
-                        child: const SongContainer(
-                          child: Icon(Icons.skip_next),
+                            onTap: value.playNextSong,
+                            child: const SongContainer(
+                              child: Icon(Icons.skip_next),
                         ),
-                      )),
+                      ),
+                      ),
                     ],
+                  ),
+                  const SizedBox(width: 40),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text('Acelerómetro:  '),
+                        Text('Eje X: ${_accelerometerValues[0].toStringAsFixed(2)}'),
+                        SizedBox(width: 20),
+                        Text('Eje Y: ${_accelerometerValues[1].toStringAsFixed(2)}'),
+                        SizedBox(width: 20),
+                        Text('Eje Z: ${_accelerometerValues[2].toStringAsFixed(2)}'),
+                      ],
+                    ),
+
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text('Giroscopio:  '),
+                        Text('Eje X: ${_gyroscopeValues[0].toStringAsFixed(2)}'),
+                        SizedBox(width: 20),
+                        Text('Eje Y: ${_gyroscopeValues[1].toStringAsFixed(2)}'),
+                        SizedBox(width: 20),
+                        Text('Eje Z: ${_gyroscopeValues[2].toStringAsFixed(2)}'),
+                      ],
+                    ),
+
                   ),
                 ],
               ),
