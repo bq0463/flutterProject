@@ -7,11 +7,12 @@ class PlaylistProvider extends ChangeNotifier{
       Song(songName: "bury the light",
           artistName: "Victor Borba",
           albumArtImagePath: "assets/images/burythelight.jpg",
-          audioPath: "audio/burythelight.mp3"),
+          audioPath: "audio/burythelight.mp3", note: '', comment: ''
+          ),
       Song(songName: "Radioactive",
           artistName: "Imagine Dragons",
           albumArtImagePath: "assets/images/Imagine_Dragons.jpg",
-          audioPath: "audio/radioactive.mp3")
+          audioPath: "audio/radioactive.mp3", note: '', comment: '')
   ];
 
   int? _currentSongIndex;
@@ -31,6 +32,8 @@ class PlaylistProvider extends ChangeNotifier{
 
   //initially not playing
   bool _isPlaying = false;
+  String comments= "";
+  double moodRating= 0;
 
   //play the song
   void play() async{

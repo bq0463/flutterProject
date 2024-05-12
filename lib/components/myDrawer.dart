@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:Megaplayer/pages/Settings_page.dart';
-import 'package:Megaplayer/pages/Add_Delete_Song.dart';
+import 'package:Megaplayer/pages/Add_Delete_FavSong.dart';
 
 class MyDrawer extends StatelessWidget {
 
@@ -55,14 +55,14 @@ class MyDrawer extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 25.0, top: 0),
             child: ListTile(
-              title: const Text('Add/delete song'),
+              title: const Text('fav Songs'),
               leading: const Icon(Icons.add_box),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => AddSongForm(),
+                    builder: (context) => AddSongFav(),
                   ),
                 );
               },

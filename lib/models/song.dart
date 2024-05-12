@@ -3,12 +3,16 @@ class Song {
   final String artistName;
   final String albumArtImagePath;
   final String audioPath;
-
+  final String note;
+  final String comment;
   Song({
     required this.songName,
     required this.artistName,
     required this.albumArtImagePath,
-    required this.audioPath});
+    required this.audioPath,
+    required this.note,
+    required this.comment,
+  });
 
   Map<String, dynamic> toMap() {
     return {
@@ -16,6 +20,7 @@ class Song {
       'artistName': artistName,
       'albumArtImagePath': albumArtImagePath,
       'audioPath': audioPath,
-    };
+      'note': note,
+      'comment': comment};
   }
 }

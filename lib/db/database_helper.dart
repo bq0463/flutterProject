@@ -7,14 +7,16 @@ import '../models/song.dart';
 
 class DatabaseHelper {
   static Database? _database;
+
   Future<Database> get database async {
     if (_database != null) return _database!;
     _database = await initDB();
     return _database!;
   }
-  initDB() async {
+
+  Future<Database> initDB() async {
     final path = await getDatabasesPath();
-    return await openDatabase(
+    final Future<Database> database = openDatabase(
       join(path, 'coordinate_database.db'),
       onCreate: (db, version) async {
         await db.execute('''
@@ -23,25 +25,39 @@ id INTEGER PRIMARY KEY AUTOINCREMENT,
 songName TEXT,
 artistName TEXT,
 albumArtImagePath TEXT,
-audioPath TEXT
+audioPath TEXT,
+note TEXT,
+comment TEXT
 )
 ''');
       },
-      version: 1,
+      version: 2,
+    );
+    return database;
+  }
+
+  Future<void> insertSong(Song song) async {
+    final db = await database;
+    await db.insert(
+      'songs',
+      song.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
 
-  Future<void> insertCoordinate(Song song) async {
+  Future<List<Song>> getSongs() async {
     final db = await database;
-    await db.insert('songs', {
-      'songName': song.songName,
-      'artistName': song.songName,
-      'albumArtImagePath': song.albumArtImagePath,
-      'audioPath': song.audioPath,
+    final List<Map<String, dynamic>> maps = await db.query('songs');
+
+    return List.generate(maps.length, (i) {
+      return Song(
+        songName: maps[i]['songName'],
+        artistName: maps[i]['artistName'],
+        albumArtImagePath: maps[i]['albumArtImagePath'],
+        audioPath: maps[i]['audioPath'],
+        comment: maps[i]['comment'],
+        note: maps[i]['note'],
+      );
     });
-  }
-  Future<List<Map<String, dynamic>>> getSongs() async {
-    final db = await database;
-    return await db.query('songs');
   }
 }

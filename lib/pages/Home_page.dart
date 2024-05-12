@@ -110,7 +110,7 @@ class _homePageState extends State<HomePage>{
       appBar: AppBar(title: const Text("M e g a  P l a y e r"),
                     centerTitle: true,
                     backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-                    ),
+      ),
       drawer: const MyDrawer(),
       body: Consumer<PlaylistProvider>(
         builder:(context,value,child) {
@@ -129,7 +129,6 @@ class _homePageState extends State<HomePage>{
                     leading: Image.asset(song.albumArtImagePath),
                     onTap: () => goToSong(context,index,song.songName),
                   );
-
                 },
             );
         }
