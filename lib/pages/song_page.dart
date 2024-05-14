@@ -9,7 +9,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 import 'package:firebase_database/firebase_database.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import '../db/database_helper.dart';
 import '../models/song.dart';
 class SongPage extends StatefulWidget {
@@ -22,7 +22,7 @@ class SongPage extends StatefulWidget {
 
 class _SongPageState extends State<SongPage>{
   final FirebaseAuth _auth = FirebaseAuth.instance;
-
+  late String uid;
   List<double> _accelerometerValues = [0, 0, 0];
   //convert duration into min:seconds
   String formatTime(Duration duration){
@@ -41,7 +41,9 @@ class _SongPageState extends State<SongPage>{
         _accelerometerValues = [event.x, event.y, event.z];
       });
     });
+    _loadPrefs();
   }
+
   @override
   void dispose() {
     _accelerometerSubscription?.cancel(); // Cancelar la suscripción en dispose()
@@ -53,7 +55,16 @@ class _SongPageState extends State<SongPage>{
       _iconColor = Theme.of(context).colorScheme.inversePrimary; // Change color here
     });
   }
-
+  Future<String?> _loadPrefs() async{
+    final prefs =await SharedPreferences.getInstance();
+    String? uidi=prefs.getString('uid');
+    String? token =prefs.getString('token');
+    if(uidi!=null) {
+      uid=uidi;
+    } else{
+      uid="Stranger";
+    }
+  }
   void showAddFavoriteDialog(BuildContext context, Function(String, String) onAddFavorite) {
     final TextEditingController commentController = TextEditingController();
     final TextEditingController noteController = TextEditingController();
@@ -81,7 +92,7 @@ class _SongPageState extends State<SongPage>{
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('Cancelar'),
+              child: Text('Cancel'),
             ),
             ElevatedButton(
               onPressed: () {
@@ -90,7 +101,7 @@ class _SongPageState extends State<SongPage>{
                 onAddFavorite(comment, note);
                 Navigator.of(context).pop();
               },
-              child: Text('Guardar'),
+              child: Text('Save'),
             ),
           ],
         );
@@ -117,10 +128,10 @@ class _SongPageState extends State<SongPage>{
         userFavoritesRef.once().then((event) {
           DataSnapshot snapshot = event.snapshot;
           if (snapshot.value != null) {
-            // La canción ya está en favoritos, eliminarla
+            // Song is on fav
             userFavoritesRef.remove();
           } else {
-            // La canción no está en favoritos, agregarla
+            // Song is not  on fav, add
             userFavoritesRef.set({
               'artist': artistName,
               'comment': comment,
@@ -129,7 +140,7 @@ class _SongPageState extends State<SongPage>{
             });
           }
         });
-        // Insertar la canción en la base de datos SQLite
+        // Insert song in SQLite db
         Song song = Song(
           songName: songname,
           artistName: artistName,
@@ -179,7 +190,7 @@ class _SongPageState extends State<SongPage>{
                       //menu button
                       IconButton(
                         onPressed: () {},
-                        icon: const Icon(Icons.menu),
+                        icon: const Icon(Icons.account_box),
                       ),
                     ],
                   ),
@@ -336,6 +347,8 @@ class _SongPageState extends State<SongPage>{
                       ],
                     ),
                   ),
+                  const SizedBox(width: 15.0),
+                  Text("Welcome back, "),
                 ],
               ),
             ),

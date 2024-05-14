@@ -2,9 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../firebase/login_screen.dart';
-import 'Home_page.dart';
+
 class SettingsPage extends StatefulWidget{
   const SettingsPage({super.key});
 
@@ -53,7 +52,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   Expanded(
                   child: ListView(
                     children: snapshot.data!.entries.map((entry) {
-                      return ListTile(title: Text("${entry.key}"),
+                      return ListTile(title: Text(entry.key),
                         subtitle: TextField(
                         controller: controllers[entry.key],
                           decoration: InputDecoration(hintText: "Enter ${entry.key}"),
