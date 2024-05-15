@@ -338,7 +338,7 @@ class _SongPageState extends State<SongPage>{
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Text('SpeedMeter:  '),
+                        Text('AcceleroMeter:  '),
                         Text('Axys X: ${_accelerometerValues[0].toStringAsFixed(2)}'),
                         SizedBox(width: 20),
                         Text('Axys Y: ${_accelerometerValues[1].toStringAsFixed(2)}'),
