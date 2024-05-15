@@ -23,7 +23,8 @@ class SongPage extends StatefulWidget {
 
 class _SongPageState extends State<SongPage>{
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  late String uid;
+  late String? uid;
+  late Timer? _timer=Timer(Duration(seconds: 0), () {});
   List<double> _accelerometerValues = [0, 0, 0];
   //convert duration into min:seconds
   String formatTime(Duration duration){
@@ -42,13 +43,30 @@ class _SongPageState extends State<SongPage>{
         _accelerometerValues = [event.x, event.y, event.z];
       });
     });
+    _handleAccelerometerChange(context);
     _loadPrefs();
   }
 
   @override
   void dispose() {
+    _timer!.cancel();
     _accelerometerSubscription?.cancel(); // Cancelar la suscripción en dispose()
     super.dispose();
+  }
+  void _handleAccelerometerChange(BuildContext context) {
+    if (_timer!.isActive) {
+      // Si hay un temporizador activo, cancelarlo y reiniciarlo
+      _timer!.cancel();
+    }
+    // Iniciar un nuevo temporizador
+    _timer = Timer(Duration(seconds: 5), () {
+      // change after 2 seconds
+      if (_accelerometerValues[0] >= 5) {
+        Provider.of<PlaylistProvider>(context, listen: false).playNextSong();
+      } else if (_accelerometerValues[0] <= -5) {
+        Provider.of<PlaylistProvider>(context, listen: false).playPreviousSong();
+      }
+    });
   }
   Color _iconColor = Colors.black; // Initial color
   void _changeColor(){
@@ -349,7 +367,7 @@ class _SongPageState extends State<SongPage>{
                     ),
                   ),
                   const SizedBox(width: 15.0),
-                  Text("Welcome back, "),
+                  Text("Welcome back, $uid"),
                 ],
               ),
             ),

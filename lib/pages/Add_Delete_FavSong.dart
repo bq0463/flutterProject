@@ -70,6 +70,7 @@ class _AddSongFavState extends State<AddSongFav> {
                               child: ListTile(
                                 title: Text(song.songName),
                                 subtitle: Text(song.comment),
+                                trailing: Text(song.note),
                               ),
                             ),
                           );
