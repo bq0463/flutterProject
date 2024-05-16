@@ -44,16 +44,16 @@ link:
 
 Features
 
-List the functional features of the app.
+List the functional features of the app:
 
     -Now you can reproduce your favorite music in this app.
     -Interactive Drawer Menu.
     -Logout quick button in the settings menu.
     -Customized userId in shared preferences.
     -accelerometer feature to play the next or previous song when you move your phone to the left or right horizontally.
+    -the app is already provided with two mp3 archives and images in assets to test the app.(if you want to add more ,just add them to assets and set in the playlist provider a new Song)
+List the technical features of the app:
     
-List the technical features of the app.
-
     -Firebase Real-time database saving your favorite songs.(Add_Delete_FavSong.dart)
     -sqflite service for the same purpose.(Add_Delete_FavSong.dart)
     -Add_Delete_FavSong.dart has a listTile of the sqflite songs.
@@ -61,9 +61,28 @@ List the technical features of the app.
     -Drawer menu used in the Home_page.dart.(myDrawer.dart component)
     -Every activity contains an arrow on the upper left side to move back to the Home_page.
     -Firebase authentication.(Home_page.dart and Settings_page.dart(logout button))
-    -List of packages:
+    -login_screen.dart is displayed before firebase auth.
+    -firebase_options.dart is generated after using the rest of firebase packages to add support between different OS.
+    -song.dart defines the atributes.
+    -main.dart which returns Home_page or login_screen and runs the app with a multiprovider for playlist provider.
+    -List of relevant packages:
         -Playlist_provider.dart uses package:audioplayers.
         -Database_helper.dart uses package:sqflite to get songs from the initiated DB or insert them.
+        -package:firebase_core
         -package:firebase_auth
         -package:provider is used in song_page to get data from the playlist_provider (such as the current song or the different durations and functions like playprevioussong or playnext) inside the Consumer.
-        
+        -package:fluttertoast is used in more than one activity or screen.
+        -package:logger is for showing the errors and the saved shared prefs.
+
+How to use
+
+  1. Play the app and provide testing1@gmail.com as email and 123456 as password (an example to test)
+  2. After that provide the userId you'd like and the token (shared prefs) or the message in the song_page will provide "Stranger" instead of your userId
+  3. Tap a song to play it,after that you can pause it or tap the previous and next to go to the next or previous song.
+  4. Also if you tap the heart button you can put a note and a comment and add it to your fav song list to see al the opinions about your songs.
+  5. Also you can rotate the mobile to the right if you want to play the next song or to the left if you want to play the previous one.
+     
+Participant
+    -Álvaro Hidalgo López (alvaro.hidalgo.lopez@alumnos.upm.es) only.
+    100%.
+     
