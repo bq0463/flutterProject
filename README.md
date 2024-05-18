@@ -18,6 +18,7 @@ Manage the songs added in your mobile via assets with a realtime database system
 Screenshots and Navigation
 
 Home_page.dart before firebase auth:
+
 ![beforeAuth](https://github.com/bq0463/flutterProject/assets/158185157/931e7e5c-52af-4156-92f7-d1e1f0b36fb6)
 
 Home_page.dart after firebase auth:
@@ -25,16 +26,24 @@ Home_page.dart after firebase auth:
 ![after auth](https://github.com/bq0463/flutterProject/assets/158185157/3b7a3830-5ab9-4feb-b860-ef4b9444f170)
 
 Home_Page.dart after setting shared prefs:
+
 ![after_shared_prefs](https://github.com/bq0463/flutterProject/assets/158185157/a8d05b22-ac92-494d-b255-54e24b919140)
 
 song_page.dart:
+
 ![song_page](https://github.com/bq0463/flutterProject/assets/158185157/0ea29758-d247-45cf-8b62-ccb9d1526db1)
 
 Adding fav:
+
 ![addFav](https://github.com/bq0463/flutterProject/assets/158185157/ce9ebb4a-d116-4658-bb48-5a884c87805f)
 
 Add_Delete_FavSong.dart:
+
 ![Add_Delete_FavSong](https://github.com/bq0463/flutterProject/assets/158185157/8194709c-0f44-4d52-ab1f-a08d096fc1a3)
+
+Added_to_realtimeDB_firebase_PAGE:
+
+![realtimedatabase1](https://github.com/bq0463/flutterProject/assets/158185157/a4bc17a4-0423-4a4a-9e46-3e30b328451b)
 
 Demo Video
 
@@ -52,6 +61,7 @@ List the functional features of the app:
     -Customized userId in shared preferences.
     -accelerometer feature to play the next or previous song when you move your phone to the left or right horizontally.
     -the app is already provided with two mp3 archives and images in assets to test the app.(if you want to add more ,just add them to assets and set in the playlist provider a new Song)
+
 List the technical features of the app:
     
     -Firebase Real-time database saving your favorite songs.(Add_Delete_FavSong.dart)
@@ -76,7 +86,7 @@ List the technical features of the app:
 
 How to use
 
-  1. Play the app and provide testing1@gmail.com as email and 123456 as password (an example to test)
+  1. Play the app and provide testing1@gmail.com as email and 123456 as password (to test)
   2. After that provide the userId you'd like and the token (shared prefs) or the message in the song_page will provide "Stranger" instead of your userId
   3. Tap a song to play it,after that you can pause it or tap the previous and next to go to the next or previous song.
   4. Also if you tap the heart button you can put a note and a comment and add it to your fav song list to see al the opinions about your songs.
